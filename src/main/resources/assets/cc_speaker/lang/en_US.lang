@@ -1,0 +1,6 @@
+tile.cc_speaker.name=Loudspeaker
+
+itemGroup.tabCCSpeaker=CC Speaker
+
+gui.label.desc=Label: %s
+gui.label.none=<None>

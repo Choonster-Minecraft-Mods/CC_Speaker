@@ -1,8 +1,8 @@
 package com.choonster.cc_speaker;
 
-import java.util.logging.Level;
-
 import cpw.mods.fml.common.FMLLog;
+
+import java.util.logging.Level;
 
 public class Logger {
 	public static void log(Level level, String format, Object... data) {

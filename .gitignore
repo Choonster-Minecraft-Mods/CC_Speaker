@@ -4,6 +4,7 @@ eclipse/
 *.ipr
 *.iws
 *.iml
+libs/*.jar
 
 
 # Ignore Gradle GUI config

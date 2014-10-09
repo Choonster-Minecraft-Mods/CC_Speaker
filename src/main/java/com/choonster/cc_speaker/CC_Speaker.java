@@ -6,6 +6,7 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -41,7 +42,7 @@ public class CC_Speaker {
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-		creativeTab = new CreativeTabs("tabCCSpeaker"){
+		creativeTab = new CreativeTabs("tabCCSpeaker") {
 			@Override
 			public ItemStack getIconItemStack() {
 				return new ItemStack(blockSpeaker);
@@ -53,9 +54,14 @@ public class CC_Speaker {
 		blockSpeaker = new BlockSpeaker(getBlock("Loudspeaker", 1235));
 		GameRegistry.registerBlock(blockSpeaker, blockSpeaker.getUnlocalizedName());
 
+		// Register the Loudspeaker as a peripheral
 		ComputerCraftAPI.registerPeripheralProvider(blockSpeaker);
 
-		configuration.save();
+		// Register the Waila data provider
+		FMLInterModComms.sendMessage("Waila", "register", "com.choonster.cc_speaker.Waila.register");
+
+		if (configuration.hasChanged())
+			configuration.save();
 	}
 
 	@EventHandler

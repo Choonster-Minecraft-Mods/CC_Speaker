@@ -17,43 +17,41 @@ import net.minecraft.world.World;
 import java.util.Arrays;
 
 public class TileEntitySpeaker extends TileEntity implements IPeripheral, ICommandSender {
-	public static final String[] METHOD_NAMES = new String[]{"sendMessage", "sendFormattedMessage", "getLabel", "setLabel", "translate"};
+	public static final String[] METHOD_NAMES = new String[]{"sendMessage", "sendFormattedMessage", "getLabel", "setLabel"};
 
 	private String label;
+
+	public TileEntitySpeaker() {
+		label = "";
+	}
 
 	/**
 	 * Sends a chat message from the loudspeaker.
 	 *
-	 * Returns the integer result of the say command.
-	 *
 	 * @param message The message to send
-	 * @return The result of the say command
+	 * @return true if the say command was executed (i.e. result > 0); false otherwise
 	 * @throws Exception Throws an exception if it can't get the instance of MinecraftServer.
 	 */
-	public int sendMessage(String message) throws Exception {
+	public boolean sendMessage(String message) throws Exception {
 		MinecraftServer minecraftserver = MinecraftServer.getServer();
 
 		if (minecraftserver == null) {
 			throw new Exception("Couldn't get the instance of MinecraftServer");
 		}
 
-
 		ICommandManager icommandmanager = minecraftserver.getCommandManager();
-		return icommandmanager.executeCommand(this, "say " + message);
-
+		return icommandmanager.executeCommand(this, "say " + message) > 0;
 	}
 
 	/**
 	 * Sends a formatted chat message from the loudspeaker using Java's String.format rules.
 	 *
-	 * Returns the integer result of the say command.
-	 *
 	 * @param format The format string to use
-	 * @param args The format arguments
-	 * @return The result of the say command
+	 * @param args   The format arguments
+	 * @return true if the say command was executed (i.e. result > 0); false otherwise
 	 * @throws Exception Throws an exception if it can't get the instance of MinecraftServer or if the formatting fails.
 	 */
-	public int sendFormattedMessage(String format, Object[] args) throws Exception {
+	public boolean sendFormattedMessage(String format, Object[] args) throws Exception {
 		return sendMessage(String.format(format, args));
 	}
 
@@ -73,11 +71,6 @@ public class TileEntitySpeaker extends TileEntity implements IPeripheral, IComma
 	 */
 	public void setLabel(String label) {
 		this.label = label.trim();
-		onInventoryChanged();
-	}
-
-	public String translate(String phrase){
-		return StatCollector.translateToLocal(phrase);
 	}
 
 	@Override
@@ -94,7 +87,7 @@ public class TileEntitySpeaker extends TileEntity implements IPeripheral, IComma
 		tagCompound.setString("label", label);
 	}
 
-	// Peripheral methods
+	// IPeripheral methods
 
 	/**
 	 * Should return a string that uniquely identifies this type of peripheral.
@@ -151,23 +144,23 @@ public class TileEntitySpeaker extends TileEntity implements IPeripheral, IComma
 	 */
 	@Override
 	public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments) throws Exception {
-		Logger.info("callMethod: %s", Arrays.toString(arguments));
+		//Logger.info("callMethod: %s", Arrays.toString(arguments));
 
 		Object[] result = null;
 
 		switch (method) {
 			case 0:
 				if (arguments.length < 1 || !(arguments[0] instanceof String)) {
-					throw new Exception("Usage: result : int = sendMessage(message : string)");
+					throw new Exception("Usage: success : boolean = sendMessage(message : string)");
 				}
-				result = new Integer[]{sendMessage((String) arguments[0])};
+				result = new Boolean[]{sendMessage((String) arguments[0])};
 				break;
 
 			case 1:
 				if (arguments.length < 1 || !(arguments[0] instanceof String)) {
-					throw new Exception("Usage: result : int = sendFormattedMessage(format : string, ...)");
+					throw new Exception("Usage: success : boolean = sendFormattedMessage(format : string, ...)");
 				}
-				result = new Integer[]{sendFormattedMessage((String) arguments[0], Arrays.copyOfRange(arguments, 1, arguments.length))};
+				result = new Boolean[]{sendFormattedMessage((String) arguments[0], Arrays.copyOfRange(arguments, 1, arguments.length))};
 				break;
 
 			case 2:
@@ -180,9 +173,6 @@ public class TileEntitySpeaker extends TileEntity implements IPeripheral, IComma
 				}
 				setLabel((String) arguments[0]);
 				break;
-
-			case 4:
-				result = new String[]{translate((String) arguments[0])};
 		}
 
 		return result;
@@ -205,7 +195,7 @@ public class TileEntitySpeaker extends TileEntity implements IPeripheral, IComma
 	 */
 	@Override
 	public void attach(IComputerAccess computer) {
-		//Logger.info("attached %s %s", computer.getID(), computer.getAttachmentName());
+		// No-op
 	}
 
 	/**
@@ -224,7 +214,7 @@ public class TileEntitySpeaker extends TileEntity implements IPeripheral, IComma
 	 */
 	@Override
 	public void detach(IComputerAccess computer) {
-		//Logger.info("detached %s %s", computer.getID(), computer.getAttachmentName());
+		// No-op
 	}
 
 	/**
@@ -244,12 +234,12 @@ public class TileEntitySpeaker extends TileEntity implements IPeripheral, IComma
 	 */
 	@Override
 	public String getCommandSenderName() {
-		return (label != null && !label.equals("")) ? label : StatCollector.translateToLocal("tile.cc_speaker.name");
+		return !label.equals("") ? label : StatCollector.translateToLocal("tile.cc_speaker.name");
 	}
 
 	@Override
 	public void sendChatToPlayer(ChatMessageComponent chatmessagecomponent) {
-
+		// No-op
 	}
 
 	/**

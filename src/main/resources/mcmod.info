@@ -1,0 +1,21 @@
+[
+{
+  "modid": "cc_speaker",
+  "name": "ComputerCraft Speaker",
+  "description": "Adds a Loudspeaker peripheral for ComputerCraft.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authors": ["Choonster"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "requiredMods": [
+	"ComputerCraft"
+  ],
+  "dependencies": [
+	"ComputerCraft"
+  ]
+}
+]
