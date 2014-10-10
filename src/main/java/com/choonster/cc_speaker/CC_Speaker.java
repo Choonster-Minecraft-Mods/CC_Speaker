@@ -11,6 +11,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import dan200.computercraft.api.ComputerCraftAPI;
+import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
@@ -53,6 +54,8 @@ public class CC_Speaker {
 
 		blockSpeaker = new BlockSpeaker(getBlock("Loudspeaker", 1235));
 		GameRegistry.registerBlock(blockSpeaker, blockSpeaker.getUnlocalizedName());
+
+		GameRegistry.addRecipe(new ItemStack(blockSpeaker), "III", "INI","III", 'I', Block.fenceIron, 'N', Block.music);
 
 		// Register the Loudspeaker as a peripheral
 		ComputerCraftAPI.registerPeripheralProvider(blockSpeaker);
