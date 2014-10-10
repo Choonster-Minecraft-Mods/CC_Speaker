@@ -1,6 +1,5 @@
 package com.choonster.cc_speaker;
 
-import com.choonster.cc_speaker.common.block.BlockSpeaker;
 import com.choonster.cc_speaker.common.tile.TileEntitySpeaker;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;

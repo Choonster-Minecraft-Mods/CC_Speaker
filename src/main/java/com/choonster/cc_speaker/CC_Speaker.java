@@ -55,7 +55,7 @@ public class CC_Speaker {
 		blockSpeaker = new BlockSpeaker(getBlock("Loudspeaker", 1235));
 		GameRegistry.registerBlock(blockSpeaker, blockSpeaker.getUnlocalizedName());
 
-		GameRegistry.addRecipe(new ItemStack(blockSpeaker), "III", "INI","III", 'I', Block.fenceIron, 'N', Block.music);
+		GameRegistry.addRecipe(new ItemStack(blockSpeaker), "III", "INI", "III", 'I', Block.fenceIron, 'N', Block.music);
 
 		// Register the Loudspeaker as a peripheral
 		ComputerCraftAPI.registerPeripheralProvider(blockSpeaker);

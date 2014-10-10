@@ -52,6 +52,18 @@ public class TileEntitySpeaker extends TileEntity implements IPeripheral, IComma
 	 * @throws Exception Throws an exception if it can't get the instance of MinecraftServer or if the formatting fails.
 	 */
 	public boolean sendFormattedMessage(String format, Object[] args) throws Exception {
+		/*StringBuilder builder = new StringBuilder();
+		for(int i=0;i < args.length; i++){
+			Object val = args[i];
+			if (i > 0){
+				builder.append(" , ");
+			}
+			builder.append(val);
+			builder.append(" : ");
+			builder.append(val == null ? "null" : val.getClass());
+		}
+		Logger.info("sendFormattedMessage: %d, %s", args.length, builder.toString());*/
+
 		return sendMessage(String.format(format, args));
 	}
 
@@ -144,7 +156,7 @@ public class TileEntitySpeaker extends TileEntity implements IPeripheral, IComma
 	 */
 	@Override
 	public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments) throws Exception {
-		//Logger.info("callMethod: %s", Arrays.toString(arguments));
+		//Logger.info("callMethod %d %d", method, arguments.length);
 
 		Object[] result = null;
 
@@ -158,7 +170,7 @@ public class TileEntitySpeaker extends TileEntity implements IPeripheral, IComma
 
 			case 1:
 				if (arguments.length < 1 || !(arguments[0] instanceof String)) {
-					throw new Exception("Usage: success : boolean = sendFormattedMessage(format : string, ...)");
+					throw new Exception("Usage: success : boolean = sendFormattedMessage(format : string, ... : any)");
 				}
 				result = new Boolean[]{sendFormattedMessage((String) arguments[0], Arrays.copyOfRange(arguments, 1, arguments.length))};
 				break;
@@ -169,7 +181,7 @@ public class TileEntitySpeaker extends TileEntity implements IPeripheral, IComma
 
 			case 3:
 				if (arguments.length < 1 || !(arguments[0] instanceof String)) {
-					throw new Exception("Usage: setLabel(label : String)");
+					throw new Exception("Usage: setLabel(label : string)");
 				}
 				setLabel((String) arguments[0]);
 				break;
