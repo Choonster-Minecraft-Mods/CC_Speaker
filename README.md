@@ -3,6 +3,9 @@ This is a mod for Minecraft 1.6.4 that adds the Loudspeaker, a ComputerCraft per
 
 You will be able to download it from Curse when I release it.
 
+## API Documentation
+You can find the API documentation for the peripheral [here](https://github.com/Choonster/CC_Speaker/wiki/Peripheral-API-Documentation).
+
 ## Setting up Forge Gradle
 To set up Forge Gradle, run `gradlew setupDecompWorkspace`.
 
